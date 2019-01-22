@@ -9,8 +9,8 @@ import hammock.circe.implicits._
 
 import io.circe.generic.auto._
 
-object Main extends App {
-  implicit val interpTrans = ApacheInterpreter[IO]
+object PostExampleMain extends App {
+  implicit val interpTrans: ApacheInterpreter[IO] = ApacheInterpreter[IO]
 
   case class Resp(data: String)
   case class Req(name: String, number: Int)
@@ -18,7 +18,7 @@ object Main extends App {
   val uri = uri"http://httpbin.org/post"
 
   val resp = Hammock
-    .request(Method.POST, uri, Map(), Some(Req("name", 4)))
+    .request(Method.POST, uri, Map.empty[String,String], Some(Req("name", 4)))
     .as[Resp]
     .exec[IO]
     .unsafeRunSync
